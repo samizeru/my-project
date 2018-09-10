@@ -2,7 +2,7 @@ const sql = require("mssql");
 const boom = require("boom");
 
 const config = {
-    user: '0',
+    user: '',
     password: '',
     server: '', // You can use 'localhost\\instance' to connect to named instance
     database: '',

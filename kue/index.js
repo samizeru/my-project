@@ -1,27 +1,41 @@
 
-const { pool, sql } = require('../sql');
-const kue = require('kue');  
-kue.app.listen(3000); 
+// const { pool, sql } = require('../sql');
+// // redis-13787.c16.us-east-1-2.ec2.cloud.redislabs.com:13787
+// /*
+// */
+// redisConfig = {
+//     prefix: 'q',
+//     redis: 'redis://MT:RedisMonitorTech@redis-13787.c16.us-east-1-2.ec2.cloud.redislabs.com:13787',
+//     options: {no_ready_check: false},
+//     db:null
+//   };
 
-const q = kue.createQueue();
-q.process('Stream', (job, done)=> {  
+// const qu = kue.createQueue(redisConfig);
+const kue = require('kue');  
+const qu = require('./config');
+qu.on('connect', () => {
+  // If you need to
+  console.info('Queue is ready!');
+});
+kue.app.listen(3000); 
+qu.process('Stream', (job, done)=> {  
     let a = new Device(job.data);
     // a.getDeviceID();
     a.setSystemIds();
     done();
 });
 
-q.on('job enqueue', (id, type)=>{
-  // console.log( 'Job %s got queued of type %s', id, type );
-}).on('job complete', (id, result)=>{
-  kue.Job.get(id, (err, job)=>{
-    if (err) return;
-    job.remove(err=>{
-      if (err) throw err;
-      // console.log('removed completed job #%d', job.id);
-    });
-  });
-});
+// qu.on('job enqueue', (id, type)=>{
+//   // console.log( 'Job %s got queued of type %s', id, type );
+// }).on('job complete', (id, result)=>{
+//   kue.Job.get(id, (err, job)=>{
+//     if (err) return;
+//     job.remove(err=>{
+//       if (err) throw err;
+//       // console.log('removed completed job #%d', job.id);
+//     });
+//   });
+// });
 
 
 class Device{

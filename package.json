@@ -19,7 +19,9 @@
     "boom": "^7.2.0",
     "haute-couture": "3.x.x",
     "joi": "13.x.x",
+    "kue": "^0.11.6",
     "mssql": "^4.1.0",
+    "redis": "^2.8.0",
     "require-dir": "^1.0.0",
     "tedious": "^2.6.3"
   },
